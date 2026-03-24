@@ -15,6 +15,9 @@ public class Game1 : Game
     public Game1()
     {
         _graphics = new GraphicsDeviceManager(this);
+
+        _graphics.PreferredBackBufferHeight = 500;
+        _graphics.PreferredBackBufferWidth = 800;
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
         
@@ -31,7 +34,7 @@ public class Game1 : Game
     {
         
         _rocketTexture = Content.Load<Texture2D>("imgs/rocket_high_res");
-        rocket = new Rocket(new Vector2(10f, -350f), new Vector2(300, 300), _rocketTexture, true, _graphics.PreferredBackBufferHeight);
+        rocket = new Rocket(new Vector2(110f, -450f), new Vector2(300, 400), _rocketTexture, true, _graphics.PreferredBackBufferHeight);
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
         // TODO: use this.Content to load your game content here
