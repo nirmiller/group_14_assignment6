@@ -1,46 +1,92 @@
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-
 
 namespace group14_assignment6;
 
 public class Rocket
 {
-    private float speed;
+    private Vector2 initialVelocity;
     private Vector2 rocketPosition;
     private Texture2D rocketTexture;
     private float rocketAngle;
-    private Vector2 origin; 
+    private Vector2 origin;
+    private Vector2 rocketVelocity;
+    private Vector2 gravity = new Vector2(0, 300f);
+    private bool rocketVisible;
+    private float screenSize;
 
-    public Rocket(float _speed, float _rocketAngle, Vector2 _rocketPosition, Texture2D _rocketTexture)
+    private float scale = 0.1f;
+
+    public Rocket(Vector2 _initialVelocity, Vector2 _rocketPosition,
+        Texture2D _rocketTexture, bool _rocketVisible, float _screenSize)
     {
-        speed = _speed;
-        rocketPosition = _rocketPosition; 
+        initialVelocity = _initialVelocity;
+        rocketPosition = _rocketPosition;
         rocketTexture = _rocketTexture;
-        rocketAngle = _rocketAngle;
-        Vector2 origin = new Vector2(
+        rocketVisible = _rocketVisible;
+        screenSize = _screenSize;
+
+        origin = new Vector2(
             rocketTexture.Width / 2f,
             rocketTexture.Height / 2f
         );
 
+        rocketVelocity = initialVelocity;
     }
 
+    public void rocketDisappear()
+    {
+        rocketVisible = false;
+    }
+
+    public void rocketAppear()
+    {
+        rocketVisible = true;
+    }
+
+    public void Update(GameTime gameTime)
+    {
+        float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+        rocketVelocity += gravity * dt;
+        rocketPosition += rocketVelocity * dt;
+
+        float halfHeight = (rocketTexture.Height * scale) / 2f;
+        float groundY = screenSize;
+
+        if (rocketPosition.Y >= groundY)
+        {
+            rocketPosition.Y = groundY;
+            rocketVelocity.Y = 0.0f;
+        }
+
+        if (MathF.Abs(rocketVelocity.Y) <= 0.01f)
+        {
+            rocketVisible = false;
+        }
+
+        if (rocketVelocity != Vector2.Zero)
+        {
+            rocketAngle = (float)System.Math.Atan2(rocketVelocity.Y, rocketVelocity.X) + 90;
+        }
+    }
 
     public void Draw(SpriteBatch spriteBatch)
     {
-        
-        spriteBatch.Draw(
-            rocketTexture,
-            rocketPosition,
-            null,
-            Color.White,
-            0f,
-            origin,
-            .2f,
-            SpriteEffects.None,
-            0f
-        );
+        if (rocketVisible)
+        {
+            spriteBatch.Draw(
+                rocketTexture,
+                rocketPosition,
+                null,
+                Color.White,
+                rocketAngle,
+                origin,
+                scale,
+                SpriteEffects.None,
+                0f
+            );
+        }
     }
-    
 }

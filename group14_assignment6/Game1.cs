@@ -31,7 +31,7 @@ public class Game1 : Game
     {
         
         _rocketTexture = Content.Load<Texture2D>("imgs/rocket_high_res");
-        rocket = new Rocket(.5f, 0.0f, new Vector2(200, 200), _rocketTexture);
+        rocket = new Rocket(new Vector2(10f, -350f), new Vector2(300, 300), _rocketTexture, true, _graphics.PreferredBackBufferHeight);
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
         // TODO: use this.Content to load your game content here
@@ -44,7 +44,7 @@ public class Game1 : Game
             Exit();
 
         // TODO: Add your update logic here
-
+        rocket.Update(gameTime);
         base.Update(gameTime);
     }
 
