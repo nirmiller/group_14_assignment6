@@ -9,11 +9,15 @@ public class Game1 : Game
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
 
+    private Rocket rocket;
+
+    private Texture2D _rocketTexture;
     public Game1()
     {
         _graphics = new GraphicsDeviceManager(this);
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
+        
     }
 
     protected override void Initialize()
@@ -25,6 +29,9 @@ public class Game1 : Game
 
     protected override void LoadContent()
     {
+        
+        _rocketTexture = Content.Load<Texture2D>("imgs/rocket_high_res");
+        rocket = new Rocket(.5f, 0.0f, new Vector2(200, 200), _rocketTexture);
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
         // TODO: use this.Content to load your game content here
@@ -46,6 +53,10 @@ public class Game1 : Game
         GraphicsDevice.Clear(Color.CornflowerBlue);
 
         // TODO: Add your drawing code here
+        
+        _spriteBatch.Begin();
+        rocket.Draw(_spriteBatch);
+        _spriteBatch.End();
 
         base.Draw(gameTime);
     }
