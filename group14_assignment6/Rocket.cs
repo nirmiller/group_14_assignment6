@@ -9,6 +9,8 @@ public class Rocket
     private Vector2 initialVelocity;
     private Vector2 rocketPosition;
     private Texture2D rocketTexture;
+    private Texture2D currentTexture;
+    private Texture2D rocketThrust;
     private float rocketAngle;
     private Vector2 origin;
     private Vector2 rocketVelocity;
@@ -16,17 +18,19 @@ public class Rocket
     private bool rocketVisible;
     private float screenSize;
 
-    private float scale = 0.1f;
+    private float scale = 0.06f;
 
     public Rocket(Vector2 _initialVelocity, Vector2 _rocketPosition,
-        Texture2D _rocketTexture, bool _rocketVisible, float _screenSize)
+        Texture2D _rocketTexture,Texture2D _rocketThrust, bool _rocketVisible, float _screenSize)
     {
         initialVelocity = _initialVelocity;
         rocketPosition = _rocketPosition;
         rocketTexture = _rocketTexture;
+        rocketThrust = _rocketThrust;
         rocketVisible = _rocketVisible;
         screenSize = _screenSize;
 
+        currentTexture = _rocketThrust;
         origin = new Vector2(
             rocketTexture.Width / 2f,
             rocketTexture.Height / 2f
@@ -70,6 +74,11 @@ public class Rocket
         {
             rocketAngle = (float)System.Math.Atan2(rocketVelocity.Y, rocketVelocity.X) + 90;
         }
+
+        if (MathF.Abs(rocketVelocity.Y) < MathF.Abs(initialVelocity.Y/1.5f))
+        {
+            currentTexture = rocketTexture;
+        }
     }
 
     public void Draw(SpriteBatch spriteBatch)
@@ -77,7 +86,7 @@ public class Rocket
         if (rocketVisible)
         {
             spriteBatch.Draw(
-                rocketTexture,
+                currentTexture,
                 rocketPosition,
                 null,
                 Color.White,

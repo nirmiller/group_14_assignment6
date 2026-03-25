@@ -12,6 +12,7 @@ public class Game1 : Game
     private Rocket rocket;
 
     private Texture2D _rocketTexture;
+    private Texture2D _rocketLaunchTexture;
     public Game1()
     {
         _graphics = new GraphicsDeviceManager(this);
@@ -34,7 +35,8 @@ public class Game1 : Game
     {
         
         _rocketTexture = Content.Load<Texture2D>("imgs/rocket_high_res");
-        rocket = new Rocket(new Vector2(110f, -450f), new Vector2(300, 400), _rocketTexture, true, _graphics.PreferredBackBufferHeight);
+        _rocketLaunchTexture =  Content.Load<Texture2D>("imgs/rocket_high_res_thrust");
+        rocket = new Rocket(new Vector2(50f, -450f), new Vector2(400, 460), _rocketTexture ,_rocketLaunchTexture, true, _graphics.PreferredBackBufferHeight);
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
         // TODO: use this.Content to load your game content here
