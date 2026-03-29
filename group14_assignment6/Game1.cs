@@ -21,6 +21,10 @@ public class Game1 : Game
     private Texture2D _particleTexture;
     private Vector2 _rocektEndPosition = new Vector2(200f, 200f);
     
+    // fountain
+    private Fountain fountain1;
+    private Fountain fountain2;
+    private Fountain fountain3;
     public Game1()
     {
         _graphics = new GraphicsDeviceManager(this);
@@ -34,6 +38,26 @@ public class Game1 : Game
     protected override void Initialize()
     {
         // TODO: Add your initialization logic here
+        
+        // positions of fountains
+        Vector2 pos1 = new Vector2(200, 500);
+        Vector2 pos2 = new Vector2(400, 500);
+        Vector2 pos3 = new Vector2(600, 500);
+
+        // colors of fountains
+        Color[] colors1 = { Color.Orange, Color.Yellow, Color.Red };
+        Color[] colors2 = { Color.Cyan, Color.Blue, Color.LavenderBlush };
+        Color[] colors3 = { Color.Lime, Color.Green, Color.YellowGreen };
+
+        // intensity (spawn rate) of fountains
+        int intensity1 = 12;
+        int intensity2 = 18;
+        int intensity3 = 25;
+
+        // Create fountains
+        fountain1 = new Fountain(pos1, GraphicsDevice, colors1, intensity1);
+        fountain2 = new Fountain(pos2, GraphicsDevice, colors2, intensity2);
+        fountain3 = new Fountain(pos3, GraphicsDevice, colors3, intensity3);
 
         base.Initialize();
     }
@@ -71,8 +95,13 @@ public class Game1 : Game
         foreach (FireworkParticles particle in _particleList)
         {
             particle.ApplyGravity(0f, 0.02f);
-
         }
+        
+        // fountain
+        fountain1.Update(gameTime);
+        fountain2.Update(gameTime);
+        fountain3.Update(gameTime);
+        
         base.Update(gameTime);
     }
 
@@ -89,6 +118,11 @@ public class Game1 : Game
         {
             particle.Display(_spriteBatch);
         }
+        
+        // fountain
+        fountain1.Draw(_spriteBatch);
+        fountain2.Draw(_spriteBatch);
+        fountain3.Draw(_spriteBatch);
         _spriteBatch.End();
 
         base.Draw(gameTime);
