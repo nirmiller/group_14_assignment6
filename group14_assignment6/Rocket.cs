@@ -23,10 +23,17 @@ public class Rocket
     // public properties added so firework can spawn in correct position 
     public Vector2 Position => rocketPosition;
     public bool IsVisible => rocketVisible;
+    
+    // starting position for resetting 
+    private Vector2 startPosition;
+    
+    private Random _random = new Random();  
+
 
     public Rocket(Vector2 _initialVelocity, Vector2 _rocketPosition,
         Texture2D _rocketTexture,Texture2D _rocketThrust, bool _rocketVisible, float _screenSize)
     {
+        startPosition = _rocketPosition;  
         initialVelocity = _initialVelocity;
         rocketPosition = _rocketPosition;
         rocketTexture = _rocketTexture;
@@ -41,6 +48,17 @@ public class Rocket
         );
 
         rocketVelocity = initialVelocity;
+    }
+    
+    // resets the rocket so it can loop 
+    public void Reset()
+    {
+        float randomX = _random.Next(100, 700);  // random X so each launch is a differnt point
+        rocketPosition = new Vector2(randomX, 460);  
+        startPosition = new Vector2(randomX, 460);   
+        rocketVelocity = initialVelocity;
+        rocketVisible = true;
+        currentTexture = rocketThrust;       
     }
 
     public void rocketDisappear()

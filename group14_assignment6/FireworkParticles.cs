@@ -85,7 +85,6 @@ public class FireworkParticles
         return _alpha <= 0.01f;
     }
 
-
     public void Display(SpriteBatch sb)
     {
         if (_alpha <= 0.01f) return;  // skip drawing super transparent particles

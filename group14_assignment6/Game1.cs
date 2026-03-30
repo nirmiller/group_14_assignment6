@@ -25,6 +25,11 @@ public class Game1 : Game
     private Fountain fountain1;
     private Fountain fountain2;
     private Fountain fountain3;
+    
+    // timer for rocket and firework 
+    private float _resetTimer = 0f;
+    private bool _waitingToReset = false;
+    
     public Game1()
     {
         _graphics = new GraphicsDeviceManager(this);
@@ -73,7 +78,6 @@ public class Game1 : Game
         // firework 
         _particleTexture = Content.Load<Texture2D>("imgs/purpleParticle");
         _particleList = new List<FireworkParticles>();
-        
     }
 
     protected override void Update(GameTime gameTime)
@@ -101,17 +105,29 @@ public class Game1 : Game
                      _rocektEndPosition,
                      150f));
              }
+             // timer
+             _waitingToReset = true;
+             _resetTimer = 0f;
         }
         
-        // firework
-        //foreach (FireworkParticles particle in _particleList)
-        //{
-            //particle.ApplyGravity(0f, 0.02f);
-        //}
         _particleList.RemoveAll(p => p.IsDead());
+        
         foreach (FireworkParticles particle in _particleList)
         {
             particle.ApplyGravity(0f, 0.04f);
+        }
+        
+        // reset rocket after particles gone 
+        if (_waitingToReset)
+        {
+            _resetTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            if (_particleList.Count == 0 || _resetTimer > 5f)
+            {
+                rocket.Reset();         
+                _waitingToReset = false;
+                _resetTimer = 0f;
+            }
         }
         
         // fountain
@@ -124,7 +140,7 @@ public class Game1 : Game
 
     protected override void Draw(GameTime gameTime)
     {
-        GraphicsDevice.Clear(Color.MidnightBlue);
+        GraphicsDevice.Clear(Color.Black);
         
         _spriteBatch.Begin();
         // rocket 
