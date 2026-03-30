@@ -1,0 +1,15 @@
+The intended simulation depicts a rocket, exploding firework and firework fountain. 
+
+Nir did the Rocket class has an initial velocity (thrust) and gravity that act on it. The rocket will shoot up at an 
+angle and travel in a parabolic arc and when it reaches the top of that arc it disappears allowing for the firework to 
+begin. This class has a initial velocity, position and texture. 
+
+Meagan did the FireworkParticle class has an explosion force and gravity that act on the particles it creates. This 
+class will randomly assign an angle the particle will go out at, a random rotation amount for the texture and randomly 
+assign either a slower velocity or a faster velocity to a particle being made. The particles start positons are based on
+the ending position of the rocket. The particles for one firework explosion will be made and stored in a list in Game1.
+Meagan also added the looping for the rocket and firework (as they need to be looped together).  
+
+Chris did the Fountain class has an initial velocity and gravity that act on the particles it creates. Fountain creates 
+particles that have a position, velocity, life tracker, a max life and a spawn rate. A list of the fountain particles 
+is created in Game1
