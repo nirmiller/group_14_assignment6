@@ -19,6 +19,10 @@ public class Rocket
     private float screenSize;
 
     private float scale = 0.06f;
+    
+    // public properties added so firework can spawn in correct position 
+    public Vector2 Position => rocketPosition;
+    public bool IsVisible => rocketVisible;
 
     public Rocket(Vector2 _initialVelocity, Vector2 _rocketPosition,
         Texture2D _rocketTexture,Texture2D _rocketThrust, bool _rocketVisible, float _screenSize)

@@ -19,8 +19,8 @@ public class Game1 : Game
     // firework
     private List<FireworkParticles> _particleList;
     private Texture2D _particleTexture;
-    private Vector2 _rocektEndPosition = new Vector2(200f, 200f);
-    
+    private Vector2 _rocektEndPosition;
+
     // fountain
     private Fountain fountain1;
     private Fountain fountain2;
@@ -74,12 +74,6 @@ public class Game1 : Game
         _particleTexture = Content.Load<Texture2D>("imgs/purpleParticle");
         _particleList = new List<FireworkParticles>();
         
-        for (int i = 0; i < 200; i++)
-        {
-            _particleList.Add(new FireworkParticles(_particleTexture,
-                _rocektEndPosition,
-                100f));
-        }
     }
 
     protected override void Update(GameTime gameTime)
@@ -87,14 +81,37 @@ public class Game1 : Game
         if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
             Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
-
+        
+        // tracking if rocket was visible in previous frame 
+        bool wasVisible = rocket.IsVisible;
+        
         // rocket 
         rocket.Update(gameTime);
         
+        // collecting position when rocket disappears 
+        if (wasVisible && !rocket.IsVisible)
+        {
+             _rocektEndPosition = rocket.Position;
+             
+             // firework
+             for (int i = 0; i < 200; i++)
+             {
+                 _particleList.Add(new FireworkParticles(
+                     _particleTexture,
+                     _rocektEndPosition,
+                     150f));
+             }
+        }
+        
         // firework
+        //foreach (FireworkParticles particle in _particleList)
+        //{
+            //particle.ApplyGravity(0f, 0.02f);
+        //}
+        _particleList.RemoveAll(p => p.IsDead());
         foreach (FireworkParticles particle in _particleList)
         {
-            particle.ApplyGravity(0f, 0.02f);
+            particle.ApplyGravity(0f, 0.04f);
         }
         
         // fountain
@@ -107,7 +124,7 @@ public class Game1 : Game
 
     protected override void Draw(GameTime gameTime)
     {
-        GraphicsDevice.Clear(Color.Black);
+        GraphicsDevice.Clear(Color.MidnightBlue);
         
         _spriteBatch.Begin();
         // rocket 

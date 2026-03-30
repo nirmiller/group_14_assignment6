@@ -78,6 +78,13 @@ public class FireworkParticles
         progress = MathHelper.Clamp(progress, 0f, 1f);
         _alpha = 1f - (progress * progress);          // quadratic so it fades quicker as it gets closer to max radius 
     }
+    
+    public bool IsDead()
+    {
+        // Let Game1 remove dead particles if you want to clean up
+        return _alpha <= 0.01f;
+    }
+
 
     public void Display(SpriteBatch sb)
     {
